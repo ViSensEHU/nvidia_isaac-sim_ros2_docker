@@ -1,10 +1,11 @@
 
-# nvidia_isaac-sim_ros2_docker
-Run NVIDIA Isaac Sim in a Docker container with ROS2 Humble and ROS2 bridge already set up.
+# nvidia_isaac-sim_4.5.0_ros2_docker
+!!! THIS BRANCH IS BEING DEVELOPED, but the docker imager builds ok
 
-I work with Ubuntu 24.04.1 LTS and I found that NVIDIA Isaac Sim isn't running on it yet. Thus, I had to dockerize it over an ubuntu 22.04 image. Furthermore, I wanted to build an image with ROS2 Humble installed and the ROS2 bridge for Isaac Sim too.
+Run NVIDIA Isaac Sim 4.5.0 in a Docker container with ROS2 Humble and ROS2 bridge already set up.
+Check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html
 
-Consequently, I share the Dockerfile in this repository. I hope it helps you!
+I share the Dockerfile in this repository. I hope it helps you!
 
 In order to build the image, you can either follow the steps manually or run the bash script ``build.sh``. Make sure to meet all the prerrequisites.<br>
 In order to run the container, you can run it manually as shown below or run the bash script ``run.sh``.<br>
@@ -123,7 +124,7 @@ docker build -t {IMAGE_NAME}:{TAG} .
 ```
 Example:
 ```bash
-docker build -t isaac_sim_ros2:4.2.0-Humble .
+docker build -t isaac_sim_ros2:4.5.0-Humble .
 ```
 
 # Run container
@@ -133,7 +134,7 @@ xhost +
 ```
 Run the container with the needed configuration:
 ```bash
-docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host   -e "PRIVACY_CONSENT=Y"   -v $HOME/.Xauthority:/root/.Xauthority   -e DISPLAY   -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw   -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw   -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw   -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw   -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw   -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw   -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw   -v ~/docker/isaac-sim/documents:/root/Documents:rw   isaac_sim_ros2:4.2.0-Humble
+docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host   -e "PRIVACY_CONSENT=Y"   -v $HOME/.Xauthority:/root/.Xauthority   -e DISPLAY   -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw   -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw   -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw   -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw   -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw   -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw   -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw   -v ~/docker/isaac-sim/documents:/root/Documents:rw   isaac_sim_ros2:4.5.0-Humble
 ```
 
 REMEMBER: if you want to share a folder between the host and the container, mount it adding the next flag to the previous command:

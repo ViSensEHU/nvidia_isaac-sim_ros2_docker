@@ -1,7 +1,7 @@
 # Base image
-FROM nvcr.io/nvidia/isaac-sim:4.2.0
+FROM nvcr.io/nvidia/isaac-sim:4.5.0
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install necessary dependencies
 RUN apt-get update && apt-get install -y \
@@ -14,6 +14,12 @@ RUN apt-get update && apt-get install -y \
     libxext6 \
     libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --allow-downgrades \
+    libbrotli1=1.0.9-2build6 \
+    libbrotli-dev
+
+
 
 # Install ROS2 Humble
 RUN apt-get update && apt-get install -y locales
