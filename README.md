@@ -1,6 +1,6 @@
 
 # nvidia_isaac-sim_4.5.0_ros2_docker
-!!! THIS BRANCH IS STILL BEING DEVELOPED
+!!! THIS BRANCH IS STILL BEING DEVELOPED. **Isaac Sim runs with warnings that need to be checked (future commits).**
 
 Run NVIDIA Isaac Sim (NIS) 4.5.0 in a Docker container with ROS2 Humble and ROS2 bridge already set up.
 Please, first af all check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html
@@ -18,7 +18,7 @@ RAM: ``32 GB``<br>
 Processor: ``13th Gen Intel® Core™ i7-13650HX × 20``<br>
 Graphics card: ``NVIDIA GeForce RTX 4060 Laptop GPU``<br>
 Graphics card memory: ``8 GB``<br>
-Needed disk space: ``22 GB``<br>
+Needed disk space: ``20 GB``<br>
 
 *It should work in previous releases as 20.04 and 22.04.
 
