@@ -1,9 +1,9 @@
 
 # nvidia_isaac-sim_4.5.0_ros2_docker
-!!! THIS BRANCH IS BEING DEVELOPED, but the docker imager builds ok
+!!! THIS BRANCH IS STILL BEING DEVELOPED
 
-Run NVIDIA Isaac Sim 4.5.0 in a Docker container with ROS2 Humble and ROS2 bridge already set up.
-Check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html
+Run NVIDIA Isaac Sim (NIS) 4.5.0 in a Docker container with ROS2 Humble and ROS2 bridge already set up.
+Please, first af all check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html
 
 I share the Dockerfile in this repository. I hope it helps you!
 
@@ -13,7 +13,7 @@ In order to run the container, you can run it manually as shown below or run the
 # Specifications
 This repository has been run with the following host specifications:
 
-OS: ``Ubuntu 24.04.1 LTS``*<br>
+OS: ``Ubuntu 24.04.X LTS``*<br>
 RAM: ``32 GB``<br>
 Processor: ``13th Gen Intel® Core™ i7-13650HX × 20``<br>
 Graphics card: ``NVIDIA GeForce RTX 4060 Laptop GPU``<br>
@@ -28,6 +28,9 @@ GPU drivers version must be 535.129.03 or later, check it with:
 ```bash
 nvidia-smi
 ```
+
+- NVIDIA Isaac Sim Requirements: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html
+Please ensure you meet the minimum requirements for NIS 4.5.0 before proceeding.
 
 - Docker installation and executing without sudo:
 ```bash
@@ -81,9 +84,20 @@ credentials-store
 Login Succeeded
 ```
 
+- Activate NVIDIA GPU X Server (host running GUI with NVIDIA GPU instead of Intel/AMD one):
+```bash
+sudo prime-select nvidia
+sudo reboot
+```
+This step is needed as Docker inherits X Server (GUI) from the host, any of the following will
+fail in order to run NIS with NVIDIA GPU in Docker:
+```bash
+sudo prime-select intel
+sudo prime-select on-demand
+```
 
 # Isaac Sim version
-``4.2.0``
+``4.5.0``
 
 # ROS2 version
 ``ROS2 Humble Desktop``
@@ -124,7 +138,7 @@ docker build -t {IMAGE_NAME}:{TAG} .
 ```
 Example:
 ```bash
-docker build -t isaac_sim_ros2:4.5.0-Humble .
+docker build -t nis_ros2:4.5.0-Humble .
 ```
 
 # Run container
@@ -134,7 +148,29 @@ xhost +
 ```
 Run the container with the needed configuration:
 ```bash
-docker run --name isaac-sim --entrypoint bash -it --gpus all -e "ACCEPT_EULA=Y" --rm --network=host   -e "PRIVACY_CONSENT=Y"   -v $HOME/.Xauthority:/root/.Xauthority   -e DISPLAY   -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw   -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw   -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw   -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw   -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw   -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw   -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw   -v ~/docker/isaac-sim/documents:/root/Documents:rw   isaac_sim_ros2:4.5.0-Humble
+xhost +local:docker
+docker run --name isaac-sim \
+           --entrypoint bash \
+           -it \
+           --rm \
+           --network=host \
+           --gpus all \
+           -runtime=nvidia \
+           -e DISPLAY=$DISPLAY \
+           -e NVIDIA_VISIBLE_DEVICES=all \
+           -e NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute \
+           -e "ACCEPT_EULA=Y" \
+           -e "PRIVACY_CONSENT=Y" \
+           -v $HOME/.Xauthority:/root/.Xauthority \
+           -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
+           -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
+           -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
+           -v ~/docker/isaac-sim/cache/glcache:/root/.cache/nvidia/GLCache:rw \
+           -v ~/docker/isaac-sim/cache/computecache:/root/.nv/ComputeCache:rw \
+           -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
+           -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
+           -v ~/docker/isaac-sim/documents:/root/Documents:rw \
+           nis_ros2:4.5.0-Humble
 ```
 
 REMEMBER: if you want to share a folder between the host and the container, mount it adding the next flag to the previous command:
@@ -154,6 +190,8 @@ Once the container is running, type next line in the container:
 Wait until Isaac Sim is completely loaded. Ignore "not responding" messages, it will take some time, so be patient ;).
 
 # Build and run with bash scripts
+You can automatically execute the above process using the ```build.sh``` and ```run.sh``` scripts.
+
 Add execution permissions:
 ```bash
 chmod u+x build.sh run.sh
@@ -169,7 +207,7 @@ Run:
 ./run.sh
 ```
 
-# Bibliography
+# Bibliography (still outdated...)
 https://docs.omniverse.nvidia.com/isaacsim/latest/installation/install_container.html
 
 https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/Documentation/Isaac-Sim-Docs_2022.2.1/isaacsim/latest/install_ros.html
