@@ -5,7 +5,7 @@ docker run --name isaac-sim \
            --rm \
            --network=host \
            --gpus all \
-           -runtime=nvidia \
+           --runtime=nvidia \
            -e DISPLAY=$DISPLAY \
            -e NVIDIA_VISIBLE_DEVICES=all \
            -e NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute \
@@ -20,4 +20,4 @@ docker run --name isaac-sim \
            -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
            -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
            -v ~/docker/isaac-sim/documents:/root/Documents:rw \
-           nis_ros2:4.5.0-Humble
+           isaac_sim_ros2:4.5.0-Humble
