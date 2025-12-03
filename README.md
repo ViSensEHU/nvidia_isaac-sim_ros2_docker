@@ -1,9 +1,9 @@
 
 # nvidia_isaac-sim_4.5.0_ros2_docker
-!!! THIS BRANCH IS STILL BEING DEVELOPED. **Isaac Sim runs with warnings that need to be checked (future commits).**
+**Isaac Sim runs with warnings (``check warning.md``, for instance, to add a RTX Lidar you may need to add some configuration files. At the moment, this issue has not been resolved, and the .md file is only available in Spanish)**
 
 Run NVIDIA Isaac Sim (NIS) 4.5.0 in a Docker container with ROS2 Humble and ROS2 bridge already set up.
-Please, first af all check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html
+Please, first af all check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html. 
 
 I share the Dockerfile in this repository. I hope it helps you!
 
@@ -13,7 +13,7 @@ In order to run the container, you can run it manually as shown below or run the
 # Specifications
 This repository has been run with the following host specifications:
 
-OS: ``Ubuntu 24.04.X LTS``*<br>
+OS: ``Ubuntu 24.04.X LTS``<br>
 RAM: ``32 GB``<br>
 Processor: ``13th Gen Intel® Core™ i7-13650HX × 20``<br>
 Graphics card: ``NVIDIA GeForce RTX 4060 Laptop GPU``<br>
@@ -144,7 +144,7 @@ docker build -t nis_ros2:4.5.0-Humble .
 # Run container
 Allow running graphic interfaces in the container:
 ```bash
-xhost +
+xhost +local:docker
 ```
 Run the container with the needed configuration:
 ```bash
@@ -172,6 +172,7 @@ docker run --name isaac-sim \
            -v ~/docker/isaac-sim/documents:/root/Documents:rw \
            nis_ros2:4.5.0-Humble
 ```
+The volume ```-v ~/docker/isaac-sim/documents:/root/Documents:rw``` is intended to be the working directory for NIS files.
 
 REMEMBER: if you want to share a folder between the host and the container, mount it adding the next flag to the previous command:
 ```bash
@@ -189,7 +190,9 @@ Once the container is running, type next line in the container:
 ```
 Wait until Isaac Sim is completely loaded. Ignore "not responding" messages, it will take some time, so be patient ;).
 
-# Build and run with bash scripts
+# Build and run with bash scripts 
+#build-and-run-with-bash-scripts
+
 You can automatically execute the above process using the ```build.sh``` and ```run.sh``` scripts.
 
 Add execution permissions:
@@ -207,7 +210,7 @@ Run:
 ./run.sh
 ```
 
-# Bibliography (still outdated...)
+# Bibliography (still outdated... needs to be checked in future commits)
 https://docs.omniverse.nvidia.com/isaacsim/latest/installation/install_container.html
 
 https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/Documentation/Isaac-Sim-Docs_2022.2.1/isaacsim/latest/install_ros.html
