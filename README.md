@@ -6,3 +6,5 @@ At the moment, only NIS 4.X.X versions over Ubuntu 22.04 LTS and ROS2 Humble
 Choose your branch!
 - [nis-4.2.0](https://github.com/arambarricalvoj/nvidia_isaac-sim_ros2_docker/tree/nis-4.2.0): NVIDIA Isaac Sim 4.2.0
 - [nis-4.5.0](https://github.com/arambarricalvoj/nvidia_isaac-sim_ros2_docker/tree/nis-4.5.0): NVIDIA Isaac Sim 4.5.0
+
+***I am working on creating branches of “distributed” working versions, that is, a container for Isaac Sim with the ROS2 bridge, but with the ROS2 application running in another container and both containers communicating with each other. The goal is to make it easier to update the versions of the container dependencies and reduce the total disk space occupied. This way of working is what NVIDIA proposes with versions 5.X.X... soon available ;)***
