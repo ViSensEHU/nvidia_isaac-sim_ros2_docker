@@ -1,6 +1,23 @@
 
-# nvidia_isaac-sim_4.5.0_ros2_docker
+# UNDER DEVELOPMENT (to be documented)
+# nvidia_isaac-sim_4.5.0_ros2_docker (DISTRIBUTED)
+
+Arrancar
+./runapp.sh --enable omni.isaac.ros2_bridge
+
+En otra terminal abrir el docker container de ROS2:
+./run_ros2_jazzy_docker.sh
+
+Y al cargar en Isaac Sim > Create > ROS2 Assets > Nova Carter y darle al play, en el contenedor de docker hacemos ros2 topic list y salen los topics, ya están conectados.
+
+FALTA DOCUMENTARLO
+
+Como funciona, habría que coger la imagen sola de nvidia, sin mi dockerfile, a ver si así también funciona. Y hacer un run.sh que lo lance todo con todas las terminales
+
+--
+
 **Isaac Sim runs with warnings (``check warning.md``, for instance, to add a RTX Lidar you may need to add some configuration files. At the moment, this issue has not been resolved, and the .md file is only available in Spanish)**
+
 
 Run NVIDIA Isaac Sim (NIS) 4.5.0 in a Docker container with ROS2 Humble and ROS2 bridge already set up.
 Please, first af all check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html. 
