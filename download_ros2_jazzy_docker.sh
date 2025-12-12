@@ -1,1 +1,0 @@
-docker pull osrf/ros:jazzy-desktop-full

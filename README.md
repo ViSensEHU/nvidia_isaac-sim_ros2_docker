@@ -1,31 +1,21 @@
 
-# UNDER DEVELOPMENT (to be documented)
 # nvidia_isaac-sim_4.5.0_ros2_docker (DISTRIBUTED)
 
-Arrancar
-./runapp.sh --enable omni.isaac.ros2_bridge
-
-En otra terminal abrir el docker container de ROS2:
-./run_ros2_jazzy_docker.sh
-
-Y al cargar en Isaac Sim > Create > ROS2 Assets > Nova Carter y darle al play, en el contenedor de docker hacemos ros2 topic list y salen los topics, ya están conectados.
-
-FALTA DOCUMENTARLO
-
-Como funciona, habría que coger la imagen sola de nvidia, sin mi dockerfile, a ver si así también funciona. Y hacer un run.sh que lo lance todo con todas las terminales
-
---
+<!-- Arrancar
+./runapp.sh --enable omni.isaac.ros2_bridge -->
 
 **Isaac Sim runs with warnings (``check warning.md``, for instance, to add a RTX Lidar you may need to add some configuration files. At the moment, this issue has not been resolved, and the .md file is only available in Spanish)**
 
 
-Run NVIDIA Isaac Sim (NIS) 4.5.0 in a Docker container with ROS2 Humble and ROS2 bridge already set up.
+Run NVIDIA Isaac Sim (NIS) 4.5.0 in a Docker container with ROS2 bridge already set up and communicating with another Docker container running the ROS2 Humble application.
 Please, first af all check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html. 
 
-I share the Dockerfile in this repository. I hope it helps you!
+In this case, since official original images are used, no Dockerfile is provided. However, whenever your ROS2 Docker container needs additional packages, it is recommended to create a Dockerfile for that image. You can see Dockerfile examples in other branches. However, in the future, a link to my Docker Hub will be published as a backup for both images—you never know what third parties might do with their repositories ;)
 
-In order to build the image, you can either follow the steps manually or run the bash script ``build.sh``. Make sure to meet all the prerrequisites.<br>
-In order to run the container, you can run it manually as shown below or run the bash script ``run.sh``.<br>
+If you meet all the requirements, you can jump directly to [Download and run with bash scripts](#download-and-run-with-bash-scripts) to start developing!
+
+NOTE: NIS 4.5.0 officially works with ROS2 Humble, but since the bridge is used to communicate topics, services, and actions, it will work in almost all cases with ROS2 Jazzy. The steps presented in this file correspond to ROS2 Humble, but the scripts correspond to Jazzy, so modify them according to your needs or preferences.
+<br>
 
 # Specifications
 This repository has been run with the following host specifications:
@@ -38,6 +28,7 @@ Graphics card memory: ``8 GB``<br>
 Needed disk space: ``20 GB``<br>
 
 *It should work in previous releases as 20.04 and 22.04.
+<br>
 
 # Prerequisites
 - NVIDIA Drivers installation: https://ubuntu.com/server/docs/nvidia-drivers-installation<br>
@@ -112,12 +103,15 @@ fail in order to run NIS with NVIDIA GPU in Docker:
 sudo prime-select intel
 sudo prime-select on-demand
 ```
+<br>
 
 # Isaac Sim version
 ``4.5.0``
+<br>
 
 # ROS2 version
 ``ROS2 Humble Desktop``
+<br>
 
 # Docker version
 ``Client: Docker Engine - Community``<br>
@@ -147,38 +141,38 @@ sudo prime-select on-demand
  `docker-init:`<br>
   `Version:          0.19.0`<br>
  ` GitCommit:        de40ad0`<br>
+<br>
 
-
-# Build image
+# Download images image
 ```bash
-docker build -t {IMAGE_NAME}:{TAG} .
+docker pull osrf/ros:humble-desktop-full
+docker pull nvcr.io/nvidia/isaac-sim:4.5.0
 ```
-Example:
-```bash
-docker build -t nis_ros2:4.5.0-Humble .
-```
+<br>
 
-# Run container
+# Run containers
 Allow running graphic interfaces in the container:
 ```bash
 xhost +local:docker
 ```
-Run the container with the needed configuration:
+Run the NIS container with the needed configuration:
 ```bash
 xhost +local:docker
-docker run --name isaac-sim \
+docker run --name nis-4.5.0-bare \
            --entrypoint bash \
            -it \
-           --rm \
-           --network=host \
+           --runtime=nvidia \
            --gpus all \
-           -runtime=nvidia \
-           -e DISPLAY=$DISPLAY \
+           -e RMW_IMPLEMENTATION=rmw_fastrtps_cpp \
+           -e LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/isaac-sim/exts/isaacsim.ros2.bridge/humble/lib \
            -e NVIDIA_VISIBLE_DEVICES=all \
            -e NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute \
            -e "ACCEPT_EULA=Y" \
+           --rm \
+           --network=host \
            -e "PRIVACY_CONSENT=Y" \
-           -v $HOME/.Xauthority:/root/.Xauthority \
+           -e DISPLAY=$DISPLAY \
+           -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
            -v ~/docker/isaac-sim/cache/kit:/isaac-sim/kit/cache:rw \
            -v ~/docker/isaac-sim/cache/ov:/root/.cache/ov:rw \
            -v ~/docker/isaac-sim/cache/pip:/root/.cache/pip:rw \
@@ -187,9 +181,27 @@ docker run --name isaac-sim \
            -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
            -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
            -v ~/docker/isaac-sim/documents:/root/Documents:rw \
-           nis_ros2:4.5.0-Humble
+           nvcr.io/nvidia/isaac-sim:4.5.0
 ```
 The volume ```-v ~/docker/isaac-sim/documents:/root/Documents:rw``` is intended to be the working directory for NIS files.
+
+Run the ROS2 container with the needed configuration:
+```bash
+xhost +local:docker
+docker run -e DISPLAY=$DISPLAY \
+           -e USER=$USER \
+           -e NVIDIA_VISIBLE_DEVICES=all \
+           -e NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute \
+           --runtime=nvidia \
+           -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
+           --device /dev/dri:/dev/dri \
+           -it \
+           --rm \
+           --network=host \
+           --gpus all \
+           --name ros2_humble \
+           osrf/ros:humble-desktop-full
+```
 
 REMEMBER: if you want to share a folder between the host and the container, mount it adding the next flag to the previous command:
 ```bash
@@ -198,6 +210,7 @@ REMEMBER: if you want to share a folder between the host and the container, moun
 ```bash
 -v ~/Documents/isaac_sim/PROJECT_ID:~/PROJECT_ID
 ```
+<br>
 
 # Run Isaac Sim inside the container
 If this command is included when running the container, ROS2 bridge will fail. That's because the container with ROS2 packages must be started first, and then Isaac Sim.
@@ -207,25 +220,62 @@ Once the container is running, type next line in the container:
 ```
 Wait until Isaac Sim is completely loaded. Ignore "not responding" messages, it will take some time, so be patient ;).
 
-# Build and run with bash scripts 
-#build-and-run-with-bash-scripts
+If GUI fails to open, ensure that host's ```$DISPLAY``` variable is set to ``:0`` (and then rerun the NIS Docker image):
+```bash
+echo $DISPLAY 
+```
+<br>
 
-You can automatically execute the above process using the ```build.sh``` and ```run.sh``` scripts.
+# Download and run with bash scripts 
+
+You can automatically execute the above process using the ```download_images.sh```, ```run_nis.sh```, ```run_ros2.sh``` and ```run.sh``` scripts.
 
 Add execution permissions:
 ```bash
-chmod u+x build.sh run.sh
+chmod u+x download_images.sh run_nis.sh run_ros2.sh run.sh
 ```
 
-Build:
+Download images:
 ```bash
-./build.sh
+./download_images.sh
 ```
 
-Run:
+Run NIS 4.5.0:
+```bash
+./run_nis.sh
+```
+
+Run ROS2:
+```bash
+./run_ros2.sh
+```
+
+If you are using Tilix to manage multiple terminals on the same screen, open a Tilix terminal and run the following command. The NIS container will automatically open on the left and the ROS2 container on the right.
 ```bash
 ./run.sh
 ```
+You can install Tilix easily:
+```bash
+sudo apt update && sudo apt install tilix -y
+```
+<br>
+
+# Check ROS2 Bridge along both containers
+On NIS, ``Create > ROS2 Assets > Nova Carter`` and click ``Play``:
+![Create Nova Carter on NIS](img/nova_carter.png)
+![Nova Carter Play on NIS](img/nova_carter_play.png)
+![Nova Carter Play2 on NIS](img/nova_carter_play2.png)
+
+
+On ROS2 container, run:
+```bash
+ros2 topic list
+```
+You will see the topics used by NIS. If you stop the simulation or exit the NIS container and run `ros2 topic list`, you will not see as many topics as before.
+
+![No topics on simulation stopped](img/no_topics.png)
+![Topics on simulation started](img/topics.png)
+<br>
 
 # Bibliography (still outdated... needs to be checked in future commits)
 https://docs.omniverse.nvidia.com/isaacsim/latest/installation/install_container.html

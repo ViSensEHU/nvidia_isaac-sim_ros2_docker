@@ -1,4 +1,4 @@
-xhost +local:*
+xhost +local:docker
 docker run -e DISPLAY=$DISPLAY \
            -e USER=$USER \
            -e NVIDIA_VISIBLE_DEVICES=all \
