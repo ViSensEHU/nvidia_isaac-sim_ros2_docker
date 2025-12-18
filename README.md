@@ -1,5 +1,7 @@
 # VNC to a server running nvidia_isaac-sim_ros2_docker
 
+ACTIVAR SSH EN EL SERVIDOR PRIMERO PARA PODER ACCEDER AL DISCO PASE LO QUE PASE Y NO NECESITAR USB LIVE
+
 # Configuración de x11vnc con Xorg Dummy en Ubuntu
 
 ## 1. Instalar paquetes necesarios
