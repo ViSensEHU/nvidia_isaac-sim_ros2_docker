@@ -1,0 +1,90 @@
+🧩 ¿Qué significa After=multi-user.target?
+
+Significa:
+
+👉 “Este servicio debe arrancar después de que el sistema haya alcanzado el target multi‑usuario.”
+
+El multi-user.target es el nivel de arranque donde:
+
+    ya están activos los servicios básicos del sistema
+
+    ya hay red
+
+    ya no estamos en modo rescate
+
+    pero todavía no se ha iniciado el entorno gráfico (ese sería graphical.target)
+
+En otras palabras:
+✔️ x11vnc se iniciará cuando el sistema esté listo para trabajar
+❌ pero no antes de que se carguen los servicios esenciales
+
+After=display-manager.service
+
+display-manager.service es el servicio que gestiona la pantalla de login gráfica:
+
+    En GNOME suele ser gdm.service.
+
+    En KDE, sddm.service.
+
+    En muchos sistemas ligeros, lightdm.service.
+
+    display-manager.service es una unidad genérica que apunta al login gráfico activo.
+
+estás diciendo:
+
+    “Arranca este servicio después de que se haya iniciado el gestor de login gráfico.”
+
+Eso es útil cuando tu servicio:
+
+    Necesita que el servidor X (display :0) ya exista.
+
+    Depende de que la pantalla de login esté lista (por ejemplo, x11vnc que comparte :0).
+
+Pero ojo:
+
+    Si por lo que sea el display manager se reinicia o falla, tu servicio no se re-lanza automáticamente solo por eso.
+
+    Solo garantizas el orden inicial al boot.
+
+After=graphical.target
+
+graphical.target es un “nivel de arranque” de systemd que significa:
+
+    “El sistema está en modo multiusuario con interfaz gráfica.”
+
+🧭 ¿Por qué se usa en x11vnc?
+
+Porque x11vnc necesita:
+
+    que el sistema esté estable
+
+    que exista un display X (:0)
+
+    que el gestor de login (lightdm, gdm, sddm…) haya arrancado
+
+Por eso se suele usar:
+Código
+
+⚠️ Importante: graphical.target ya incluye a los otros dos
+
+La jerarquía de systemd es así:
+Código
+
+✔️ Si quieres asegurarte de que el entorno gráfico está listo
+
+(ideal para x11vnc que engancha a :0)
+ini
+
+(ideal para x11vnc que engancha a :0)
+After=graphical.target
+Wants=graphical.target
+
+Esto garantiza:
+
+    El sistema está en modo gráfico
+
+    El display manager está arrancado
+
+    Xorg está activo
+
+    La sesión de login está lista
