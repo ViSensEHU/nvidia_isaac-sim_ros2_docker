@@ -1,5 +1,5 @@
-Buena pregunta 👀. La configuración que muestras usa el driver dummy de Xorg, que literalmente es un driver virtual pensado para entornos sin GPU ni monitor físico. Por diseño, ese driver no aprovecha la aceleración de hardware: todo lo que se dibuja en el framebuffer es gestionado por la CPU, sin pasar por la GPU.
-🔎 ¿Por qué el dummy no usa GPU?
+Buena pregunta. La configuración que muestras usa el driver dummy de Xorg, que literalmente es un driver virtual pensado para entornos sin GPU ni monitor físico. Por diseño, ese driver no aprovecha la aceleración de hardware: todo lo que se dibuja en el framebuffer es gestionado por la CPU, sin pasar por la GPU.
+¿Por qué el dummy no usa GPU?
 
     El xserver-xorg-video-dummy está pensado para crear un display virtual en servidores headless.
 
@@ -7,7 +7,7 @@ Buena pregunta 👀. La configuración que muestras usa el driver dummy de Xorg,
 
     Por tanto, aunque tengas una GPU NVIDIA disponible, el dummy nunca la va a usar para renderizar.
 
-✅ Opciones si quieres renderizado por GPU
+Opciones si quieres renderizado por GPU
 
 Si tu objetivo es que Isaac Sim o cualquier aplicación gráfica se renderice con aceleración de GPU aunque no haya monitor físico, tienes varias alternativas:
 

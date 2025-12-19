@@ -1,8 +1,45 @@
 # VNC to a server running nvidia_isaac-sim_ros2_docker
 
-ACTIVAR SSH EN EL SERVIDOR PRIMERO PARA PODER ACCEDER AL DISCO PASE LO QUE PASE Y NO NECESITAR USB LIVE
+Currently only available in Spanish... sorry :(
 
 # Configuración de x11vnc con Xorg Dummy en Ubuntu
+
+## 0.1 Iniciar sesión automáticamente
+Es necesario que inicie sesión automáticamente en el usuario deseado, de lo contrario, no se cargará el entorno gráfico y no se podrá acceder por X11VNC (solo por Remote Login y TigerVNC, que no sirven para ejecutar Isaac Sim).
+
+Configuración > Sistema > Usuarios:
+
+![Activar inicio de sesión automático](img/iniciar_sesion_auto.png)
+
+## 0.2 Instalar, configurar y conectarse por SSH
+```bash
+sudo apt update
+sudo apt install openssh-server
+```
+
+```bash
+sudo systemctl status ssh
+```
+Debe aparecer como active (running).
+
+Habilitar SSH para que arranque automáticamente:
+```bash
+sudo systemctl enable ssh
+```
+
+Habilitar el puerto 22 en el firewall y reiniciarlo:
+```bash
+sudo ufw allow 22/tcp
+sudo ufw reload
+```
+
+Conexión SSH desde otro host:
+```bash
+ssh USER_REMOTE@IP_DIRECTION
+```
+
+Por seguridad, lo ideal sería añadir claves públicas de forma que solo nos podamos conectar con determinadas claves SSH, pero de momento lo vamos a dejar así.
+
 
 ## 1. Instalar paquetes necesarios
 ```bash
@@ -96,12 +133,34 @@ DISPLAY=:0 startx -- -config /etc/X11/xorg.conf.d/10-headless.conf &
 sudo systemctl restart x11vnc.service
 ```
 
-Control Alt F3 entramos en tty del servidor con el monitor físico conectado,
-borramos el ficheros de configuración dle dummy (comentamos) y reiniciamos y 
-ya funciona en el monitor.
-```bash 
-sudo nano /etc/X11/xorg.conf.d/10-headless.conf
-```
+## 8. Desactivar dummy y activar monitor físico
+Acceder por SHH:
 ```bash
-sudo systemctl restart gdm 
+ssh USER_REMOTE@IP_DIRECTION
+```
+
+Renombrar el fichero de configuración del dummy. Hay que quitar la extesnión ``.conf``, ya que Xorg carga la configuración de todos los ficheros con esa terminación:
+```bash
+sudo mv /etc/X11/xorg.conf.d/10-headless.conf /etc/X11/xorg.conf.d/10-headless.conf.bkp
+```
+
+Reiniciamos:
+```bash
+sudo reboot
+```
+
+## 9. Activar dummy y desactivar monitor físico
+Acceder por SHH:
+```bash
+ssh USER_REMOTE@IP_DIRECTION
+```
+
+Renombrar el fichero de configuración del dummy. Hay que poner la extesnión ``.conf``, ya que Xorg carga la configuración de todos los ficheros con esa terminación:
+```bash
+sudo mv /etc/X11/xorg.conf.d/10-headless.conf.bkp /etc/X11/xorg.conf.d/10-headless.conf
+```
+
+Reiniciamos:
+```bash
+sudo reboot
 ```
