@@ -263,6 +263,8 @@ sudo apt update && sudo apt install tilix -y
 <br>
 
 # Check ROS2 Bridge along both containers
+NOTE: For simplicity, since the graphical user interface of NIS 4.5.0 is identical to that of NIS 5.1.0, the screenshots are from the previous version. 
+
 On NIS, ``Create > ROS2 Assets > Nova Carter`` and click ``Play``:
 ![Create Nova Carter on NIS](img/nova_carter.png)
 ![Nova Carter Play on NIS](img/nova_carter_play.png)
