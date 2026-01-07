@@ -1,11 +1,11 @@
 xhost +local:docker
-docker run --name nis-4.5.0-bare \
+docker run --name nis-5.1.0-bare \
            --entrypoint bash \
            -it \
            --runtime=nvidia \
            --gpus all \
            -e RMW_IMPLEMENTATION=rmw_fastrtps_cpp \
-           -e LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/isaac-sim/exts/isaacsim.ros2.bridge/humble/lib \
+           -e LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/isaac-sim/exts/isaacsim.ros2.bridge/jazzy/lib \
            -e NVIDIA_VISIBLE_DEVICES=all \
            -e NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute \
            -e "ACCEPT_EULA=Y" \
@@ -22,4 +22,4 @@ docker run --name nis-4.5.0-bare \
            -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
            -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
            -v ~/docker/isaac-sim/documents:/root/Documents:rw \
-           nvcr.io/nvidia/isaac-sim:4.5.0
+           nvcr.io/nvidia/isaac-sim:5.1.0
