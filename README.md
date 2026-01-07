@@ -1,5 +1,5 @@
 
-# nvidia_isaac-sim_4.5.0_ros2_docker (DISTRIBUTED)
+# nvidia_isaac-sim_5.1.0_ros2_docker (DISTRIBUTED)
 
 <!-- Arrancar
 ./runapp.sh --enable omni.isaac.ros2_bridge -->
@@ -7,14 +7,14 @@
 **Isaac Sim runs with warnings (``check warning.md``, for instance, to add a RTX Lidar you may need to add some configuration files. At the moment, this issue has not been resolved, and the .md file is only available in Spanish)**
 
 
-Run NVIDIA Isaac Sim (NIS) 4.5.0 in a Docker container with ROS2 bridge already set up and communicating with another Docker container running the ROS2 Humble application.
-Please, first af all check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html. 
+Run NVIDIA Isaac Sim (NIS) 5.1.0 in a Docker container with ROS2 bridge already set up and communicating with another Docker container running the ROS2 Humble application.
+Please, first af all check NIS_4-5-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/requirements.html. 
 
 In this case, since official original images are used, no Dockerfile is provided. However, whenever your ROS2 Docker container needs additional packages, it is recommended to create a Dockerfile for that image. You can see Dockerfile examples in other branches. However, in the future, a link to my Docker Hub will be published as a backup for both images—you never know what third parties might do with their repositories ;)
 
 If you meet all the requirements, you can jump directly to [Download and run with bash scripts](#download-and-run-with-bash-scripts) to start developing!
 
-NOTE: NIS 4.5.0 officially works with ROS2 Humble, but since the bridge is used to communicate topics, services, and actions, it will work in almost all cases with ROS2 Jazzy. The steps presented in this file correspond to ROS2 Humble, but the scripts correspond to Jazzy, so modify them according to your needs or preferences.
+NOTE: NIS 5.1.0 officially works with ROS2 Humble, but since the bridge is used to communicate topics, services, and actions, it will work in almost all cases with ROS2 Jazzy. The steps presented in this file correspond to ROS2 Humble, but the scripts correspond to Jazzy, so modify them according to your needs or preferences.
 <br>
 
 # Specifications
@@ -23,22 +23,24 @@ This repository has been run with the following host specifications:
 OS: ``Ubuntu 24.04.X LTS``<br>
 RAM: ``32 GB``<br>
 Processor: ``13th Gen Intel® Core™ i7-13650HX × 20``<br>
-Graphics card: ``NVIDIA GeForce RTX 4060 Laptop GPU``<br>
-Graphics card memory: ``8 GB``<br>
-Needed disk space: ``20 GB``<br>
+Graphics card: ``NVIDIA Quadro RTX 5000``<br>
+Graphics card memory: ``16 GB``<br>
+NVIDIA-SMI dirvers version: ``580.95.05``<br>
+CUDA version: ``13.0``<br>
+Needed disk space: ``30 GB`` (rounded up)<br>
 
 *It should work in previous releases as 20.04 and 22.04.
 <br>
 
 # Prerequisites
 - NVIDIA Drivers installation: https://ubuntu.com/server/docs/nvidia-drivers-installation<br>
-GPU drivers version must be 535.129.03 or later, check it with:
+GPU drivers version must be 580.65.06 or later, check it with:
 ```bash
 nvidia-smi
 ```
 
-- NVIDIA Isaac Sim Requirements: https://docs.isaacsim.omniverse.nvidia.com/4.5.0/installation/requirements.html
-Please ensure you meet the minimum requirements for NIS 4.5.0 before proceeding.
+- NVIDIA Isaac Sim Requirements: https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/requirements.html
+Please ensure you meet the minimum requirements for NIS 5.1.0 before proceeding.
 
 - Docker installation and executing without sudo:
 ```bash
@@ -106,7 +108,7 @@ sudo prime-select on-demand
 <br>
 
 # Isaac Sim version
-``4.5.0``
+``5.1.0``
 <br>
 
 # ROS2 version
@@ -146,7 +148,7 @@ sudo prime-select on-demand
 # Download images image
 ```bash
 docker pull osrf/ros:humble-desktop-full
-docker pull nvcr.io/nvidia/isaac-sim:4.5.0
+docker pull nvcr.io/nvidia/isaac-sim:5.1.0
 ```
 <br>
 
@@ -158,13 +160,13 @@ xhost +local:docker
 Run the NIS container with the needed configuration:
 ```bash
 xhost +local:docker
-docker run --name nis-4.5.0-bare \
+docker run --name nis-5.1.0-bare \
            --entrypoint bash \
            -it \
            --runtime=nvidia \
            --gpus all \
            -e RMW_IMPLEMENTATION=rmw_fastrtps_cpp \
-           -e LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/isaac-sim/exts/isaacsim.ros2.bridge/humble/lib \
+           -e LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/isaac-sim/exts/isaacsim.ros2.bridge/jazzy/lib \
            -e NVIDIA_VISIBLE_DEVICES=all \
            -e NVIDIA_DRIVER_CAPABILITIES=graphics,utility,compute \
            -e "ACCEPT_EULA=Y" \
@@ -181,7 +183,7 @@ docker run --name nis-4.5.0-bare \
            -v ~/docker/isaac-sim/logs:/root/.nvidia-omniverse/logs:rw \
            -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
            -v ~/docker/isaac-sim/documents:/root/Documents:rw \
-           nvcr.io/nvidia/isaac-sim:4.5.0
+           nvcr.io/nvidia/isaac-sim:5.1.0
 ```
 The volume ```-v ~/docker/isaac-sim/documents:/root/Documents:rw``` is intended to be the working directory for NIS files.
 
@@ -240,7 +242,7 @@ Download images:
 ./download_images.sh
 ```
 
-Run NIS 4.5.0:
+Run NIS 5.1.0:
 ```bash
 ./run_nis.sh
 ```
