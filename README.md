@@ -93,18 +93,6 @@ mkdir -p ~/docker/isaac-sim/pkg
 sudo chown -R 1234:1234 ~/docker/isaac-sim
 ```
 
-- Change the group ownership of the projects/ folder to group 1234 and grant group write permissions so that the user running inside the container (1000:1234) can write to the mounted volume:
-```bash
-sudo chgrp -R 1234 ./projects
-```
-
-Next, once you have saved the files, in order to use them from the host, change their owner, but remember that you will then no longer be able to read them from the Docker container (Isaac Sim):
-```bash
-sudo chown -R $USER ./projects
-```
-
-The solution is for the host user to have the same ID and GROUP 1234 as Docker, in development...
-
 - Generate NGC API Key: https://docs.nvidia.com/ngc/ngc-overview/index.html#generating-api-key
 - Log in to NGC:
 ```bash
@@ -170,7 +158,7 @@ sudo prime-select on-demand
  ` GitCommit:        de40ad0`<br>
 <br>
 
-# Download images image
+# Download images
 ```bash
 docker pull osrf/ros:humble-desktop-full
 docker pull nvcr.io/nvidia/isaac-sim:5.1.0
@@ -284,6 +272,53 @@ You can install Tilix easily:
 ```bash
 sudo apt update && sudo apt install tilix -y
 ```
+<br>
+
+# (Pending better resolution) Mounting the ``projects/`` volume with proper permissions
+When running Isaac Sim inside Docker, files created in the mounted ``projects/`` directory may end up with incorrect ownership or restrictive permissions on the host.
+
+Use a shared group and allow group write access. In this method, both the host user and the Docker container share the same group (GID 1234). Files created inside the container will inherit this group and be writable by both sides. 
+
+  1. Create a group with GID 1234 and add your host user to it:
+  ```bash
+  sudo groupadd -g 1234 isaac_sim
+  sudo usermod -aG isaac_sim $USER
+  newgrp isaac_sim
+  ```
+
+  2. Change the group ownership of the projects/ directory:
+  ```bash
+  sudo chgrp -R isaac_sim ./projects
+  ```
+
+  3. Ensure the group can write to the directory and that new files inherit the group:
+  ```bash
+  sudo chmod -R g+rw ./projects
+  sudo chmod g+s ./projects # Optional
+  ```
+
+  4. Finally, if you want to read those project files in the host (or to push to GitHub) change the owner and add permissions (in the host):
+  ```bash
+  sudo chown $USER -R project/
+  sudo chmod -R u+rwx project/
+  sudo chmod -R g+rwx project/
+  ```
+
+  This ensures that once the files are created, they are accessible and can be manipulated from both the host and the Docker container. However, when Isaac Sim generates the file, you will need to manually give permissions to the group as in step 4. Be careful! If the owner of the group is changed, Isaac Sim's Docker container will not be able to read the files, hence the need to create the group. At the moment, no better solution has been found (``-u 1000:1234`` has been tried, but when running Isaac Sim from a Python file, it gave permission errors in the host's shared folders ``~/docker/isaac-sim/*``, pending resolution). 
+<br>
+
+<!-- - Use a excesively permissive umask so "Other" can read and write the file. Add the following flag to ``docker run`` command:
+  ```bash
+  -c "umask 0000 && bash"
+  ```
+  Those permissions are (for files):
+  ```
+  u=rw-, g=rw-, o=rw-
+  ```
+  Those permissions are (for directories):
+  ```
+  u=rwx, g=rwx, o=rwx
+  ```-->
 <br>
 
 # Check ROS2 Bridge along both containers
