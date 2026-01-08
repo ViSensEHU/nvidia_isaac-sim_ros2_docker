@@ -80,6 +80,31 @@ sudo systemctl restart docker
 docker run --rm --runtime=nvidia --gpus all ubuntu nvidia-smi
 ```
 
+- Create the cached volume mounts on host:
+```bash
+mkdir -p ~/docker/isaac-sim/cache/main/ov
+mkdir -p ~/docker/isaac-sim/cache/main/warp
+mkdir -p ~/docker/isaac-sim/cache/computecache
+mkdir -p ~/docker/isaac-sim/config
+mkdir -p ~/docker/isaac-sim/data/documents
+mkdir -p ~/docker/isaac-sim/data/Kit
+mkdir -p ~/docker/isaac-sim/logs
+mkdir -p ~/docker/isaac-sim/pkg
+sudo chown -R 1234:1234 ~/docker/isaac-sim
+```
+
+- Change the group ownership of the projects/ folder to group 1234 and grant group write permissions so that the user running inside the container (1000:1234) can write to the mounted volume:
+```bash
+sudo chgrp -R 1234 ./projects
+```
+
+Next, once you have saved the files, in order to use them from the host, change their owner, but remember that you will then no longer be able to read them from the Docker container (Isaac Sim):
+```bash
+sudo chown -R $USER ./projects
+```
+
+The solution is for the host user to have the same ID and GROUP 1234 as Docker, in development...
+
 - Generate NGC API Key: https://docs.nvidia.com/ngc/ngc-overview/index.html#generating-api-key
 - Log in to NGC:
 ```bash

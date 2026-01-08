@@ -20,5 +20,5 @@ docker run --name nis-5.1.0-bare \
            -v ~/docker/isaac-sim/data:/isaac-sim/.local/share/ov/data:rw \
            -v ~/docker/isaac-sim/pkg:/isaac-sim/.local/share/ov/pkg:rw \
            -v ./projects:/isaac-sim/projects:rw \
-           -u 1000:1234 \
+           -u 1234:1234 \
            nvcr.io/nvidia/isaac-sim:5.1.0
