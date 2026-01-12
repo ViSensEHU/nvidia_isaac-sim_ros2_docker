@@ -274,7 +274,7 @@ sudo apt update && sudo apt install tilix -y
 ```
 <br>
 
-# (Pending better resolution) Mounting the ``projects/`` volume with proper permissions
+<!-- # (Pending better resolution) Mounting the ``projects/`` volume with proper permissions
 When running Isaac Sim inside Docker, files created in the mounted ``projects/`` directory may end up with incorrect ownership or restrictive permissions on the host.
 
 Use a shared group and allow group write access. In this method, both the host user and the Docker container share the same group (GID 1234). Files created inside the container will inherit this group and be writable by both sides. 
@@ -305,7 +305,7 @@ Use a shared group and allow group write access. In this method, both the host u
   ```
 
   This ensures that once the files are created, they are accessible and can be manipulated from both the host and the Docker container. However, when Isaac Sim generates the file, you will need to manually give permissions to the group as in step 4. Be careful! If the owner of the group is changed, Isaac Sim's Docker container will not be able to read the files, hence the need to create the group. At the moment, no better solution has been found (``-u 1000:1234`` has been tried, but when running Isaac Sim from a Python file, it gave permission errors in the host's shared folders ``~/docker/isaac-sim/*``, pending resolution). 
-<br>
+<br> -->
 
 <!-- - Use a excesively permissive umask so "Other" can read and write the file. Add the following flag to ``docker run`` command:
   ```bash
@@ -318,7 +318,68 @@ Use a shared group and allow group write access. In this method, both the host u
   Those permissions are (for directories):
   ```
   u=rwx, g=rwx, o=rwx
-  ```-->
+  ```
+<br> -->
+
+# (Recommended solution, optional) Matching host user UID/GID with the NVIDIA Isaac Sim Docker container
+When running Isaac Sim inside Docker, files created inside the mounted `projects/` directory inherit the **UID and GID of the user inside the container**.  
+NVIDIA's Isaac Sim images typically run as a user with:
+- **UID = 1234**
+- **GID = 1234**
+
+If the host user has a different UID/GID (e.g., the default 1000:1000), files created by Isaac Sim will appear on the host as belonging to an *unknown user*, causing:
+- permission denied errors  
+- inability to edit or delete files without `sudo`  
+- Git refusing to stage or commit files  
+- VS Code failing to save changes  
+- broken workflows when mixing host and container operations  
+
+To avoid these issues, the most robust solution is to **create a host user whose UID and GID match those of the Isaac Sim container**. This ensures that files created inside Docker appear on the host as belonging to a real user, with full read/write access and without requiring elevated privileges.
+
+---
+
+## 1. Create a host user with UID/GID 1234
+
+```bash
+sudo groupadd -g 1234 isaac_sim
+sudo useradd -m -u 1234 -g 1234 isaac_sim
+sudo passwd isaac_sim
+```
+
+## 2. (Optional but recommended) Copy your existing environment
+If you want the new user to have the same shell configuration, ROS setup, VS Code settings, etc.:
+```bash
+sudo groupadd -g 1234 isaac_sim
+sudo useradd -m -u 1234 -g 1234 isaac_sim
+sudo passwd isaac_sim # Change the password
+```
+
+### 3. (If you are using a VNC server, see the [`vnc`](https://github.com/arambarricalvoj/nvidia_isaac-sim_ros2_docker/tree/vnc) branch)
+If your workflow relies on a VNC session, ensure that the new user becomes the one owning the graphical session.  
+To do this:
+
+**Enable automatic login for the new user** so that the X session on `:0` belongs to them.    
+   Edit the GDM configuration file (or configure it through *Settings*, as shown in the [`vnc`](https://github.com/arambarricalvoj/nvidia_isaac-sim_ros2_docker/tree/vnc) branch):
+
+   ```bash
+   sudo nano /etc/gdm3/custom.conf
+   ```
+
+  Under the [daemon] section, set:
+  ```
+  AutomaticLoginEnable=true
+  AutomaticLogin=isaac_sim
+  ```
+
+  Then restart GDM or reboot:
+  ```
+  sudo systemctl restart gdm3
+  ```
+
+  Or:
+  ```
+  sudo reboot
+  ```
 <br>
 
 # Check ROS2 Bridge along both containers
