@@ -240,24 +240,30 @@ echo $DISPLAY
 ```
 <br>
 
-# Download and run with bash scripts 
+# Download/build Docker images and run with bash scripts 
 
-You can automatically execute the above process using the ```download_images.sh```, ```run_nis.sh```, ```run_ros2.sh``` and ```run.sh``` scripts.
+You can automatically execute the above process using the ```download_images.sh```, ```build_ros2.sh``` ```run_nis.sh```, ```run_ros2.sh``` and ```run.sh``` scripts.
 
 Add execution permissions:
 ```bash
-chmod u+x download_images.sh run_nis.sh run_ros2.sh run.sh
+chmod u+x download_images.sh build_ros2.sh run_nis.sh run_ros2.sh run.sh
 ```
 
-Download images:
+Download NIS image:
 ```bash
 ./download_images.sh
 ```
 
-Run NIS 5.1.0:
-```bash
-./run_nis.sh
-```
+Build or download ROS2 Docker image adapted to NIS:
+  - Build:
+    ```bash
+    ./build_ros2.sh
+    ```
+  
+  - Download:
+    ```bash
+    ./docker pull arambarricalvoj/ros:jazzy-desktop-full_nis:latest
+    ```
 
 Run ROS2:
 ```bash
