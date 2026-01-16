@@ -10,7 +10,9 @@
 Run NVIDIA Isaac Sim (NIS) 5.1.0 in a Docker container with ROS2 bridge already set up and communicating with another Docker container running the ROS2 Humble application.
 Please, first af all check NIS_5-1-0 requiremente here: https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/requirements.html. 
 
-In this case, since official original images are used, no Dockerfile is provided. However, whenever your ROS2 Docker container needs additional packages, it is recommended to create a Dockerfile for that image. You can see Dockerfile examples in other branches. However, in the future, a link to my Docker Hub will be published as a backup for both images—you never know what third parties might do with their repositories ;)
+In this case, the Isaac Sim Docker image is the official one provided by NVIDIA, so no Dockerfile is included. However, the ROS2 image, although based on the official OSRF Docker image, requires additional configuration (the inclusion of a fastdds.xml profile) to enable communication with Isaac Sim. For this reason, a custom Dockerfile is provided for the ROS 2 container.
+
+In the future, a link to my Docker Hub will also be published as a backup for both images, you never know what third parties might do with their repositories ;)
 
 If you meet all the requirements, you can jump directly to [Download and run with bash scripts](#download-and-run-with-bash-scripts) to start developing!
 
