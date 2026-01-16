@@ -11,4 +11,11 @@ Choose your branch!
 
 “Distributed” branches: a container for Isaac Sim with the ROS2 bridge, but with the ROS2 application running in another container and both containers communicating with each other. The goal is to make it easier to update the versions of the container dependencies and reduce the total disk space occupied. This way of working is what NVIDIA proposes with versions 5.X.X.
 
+**Reference branches**:  
+The distributed branches are the main reference for this repository. The recommended reference order is:
+
+1. [nis-5.1.0-distributed](https://github.com/arambarricalvoj/nvidia_isaac-sim_ros2_docker/tree/nis-5.1.0-distributed)
+
+2. [nis-4.5.0-distributed](https://github.com/arambarricalvoj/nvidia_isaac-sim_ros2_docker/tree/nis-4.5.0-distributed)
+
 <!-- ***I am working on creating branches of “distributed” working versions, that is, a container for Isaac Sim with the ROS2 bridge, but with the ROS2 application running in another container and both containers communicating with each other. The goal is to make it easier to update the versions of the container dependencies and reduce the total disk space occupied. This way of working is what NVIDIA proposes with versions 5.X.X... soon available ;)*** -->
