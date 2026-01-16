@@ -12,11 +12,15 @@ Please, first af all check NIS_5-1-0 requiremente here: https://docs.isaacsim.om
 
 In this case, the Isaac Sim Docker image is the official one provided by NVIDIA, so no Dockerfile is included. However, the ROS2 image, although based on the official OSRF Docker image, requires additional configuration (the inclusion of a fastdds.xml profile) to enable communication with Isaac Sim. For this reason, a custom Dockerfile is provided for the ROS 2 container.
 
-In the future, a link to my Docker Hub will also be published as a backup for both images, you never know what third parties might do with their repositories ;)
+A link to my Docker Hub is provided as a backup for both images, you never know what third parties might do with their repositories ;) [https://hub.docker.com/r/arambarricalvoj/nis_ros2](https://hub.docker.com/r/arambarricalvoj/nis_ros2):
+- (soon available) Official NIS 5.1.0 image in my Docker Hub: ``docker pull arambarricalvoj/nis_ros2:nis-5.1.0``
+- (soon available) Official ROS2 Jazzy image in my Docker Hub: ``docker pull arambarricalvoj/nis_ros2:ros-jazzy-desktop-full``
+- Adapted ROS2 Jazzy image in my Docker Hub: ``docker pull arambarricalvoj/nis_ros2:ros-jazzy-desktop-full-nis`` 
+
 
 If you meet all the requirements, you can jump directly to [Download and run with bash scripts](#download-and-run-with-bash-scripts) to start developing!
 
-NOTE: NIS 5.1.0 officially works with ROS2 Humble, but since the bridge is used to communicate topics, services, and actions, it will work in almost all cases with ROS2 Jazzy. The steps presented in this file correspond to ROS2 Humble, but the scripts correspond to Jazzy, so modify them according to your needs or preferences.
+NOTE: NIS 5.1.0 officially works with ROS2 Jazzy.
 <br>
 
 # Specifications
@@ -114,8 +118,7 @@ Login Succeeded
 sudo prime-select nvidia
 sudo reboot
 ```
-This step is needed as Docker inherits X Server (GUI) from the host, any of the following will
-fail in order to run NIS with NVIDIA GPU in Docker:
+This step is needed as Docker inherits X Server (GUI) from the host, any of the following will fail in order to run NIS with NVIDIA GPU in Docker:
 ```bash
 sudo prime-select intel
 sudo prime-select on-demand
@@ -216,7 +219,7 @@ docker run -e DISPLAY=$DISPLAY \
            --network=host \
            --gpus all \
            --name ros2_humble \
-           osrf/ros:humble-desktop-full
+           ros:jazzy-desktop-full_nis
 ```
 
 REMEMBER: if you want to share a folder between the host and the container, mount it adding the next flag to the previous command:
@@ -264,7 +267,7 @@ Build or download ROS2 Docker image adapted to NIS:
   
   - Download:
     ```bash
-    ./docker pull arambarricalvoj/ros:jazzy-desktop-full_nis:latest
+    docker pull arambarricalvoj/nis_ros2:ros-jazzy-desktop-full-nis
     ```
 
 Run ROS2:
@@ -409,7 +412,12 @@ You will see the topics used by NIS. If you stop the simulation or exit the NIS 
 ![Topics on simulation started](img/topics.png)
 <br>
 
-# Bibliography (still outdated... needs to be checked in future commits)
+# Bibliography 
+https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/index.html
+
+https://docs.isaacsim.omniverse.nvidia.com/5.1.0/installation/install_ros.html
+
+# Outdated bibliography
 https://docs.omniverse.nvidia.com/isaacsim/latest/installation/install_container.html
 
 https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/Documentation/Isaac-Sim-Docs_2022.2.1/isaacsim/latest/install_ros.html

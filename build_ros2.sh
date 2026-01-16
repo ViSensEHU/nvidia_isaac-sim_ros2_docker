@@ -1,2 +1,2 @@
-docker build -t ros:jazzy-desktop-full_nis .
+docker build -t ros:jazzy-desktop-full-nis .
 
