@@ -1,0 +1,55 @@
+[1.057s] Invoking command in '/home/isaac_sim/projects/javier.arambarri/robot_import/ws/src/create3': PYTHONPATH=/home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/create3 build --build-base /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build install --record /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/install.log --single-version-externally-managed install_data
+[1.404s] running egg_info
+[1.404s] creating ../../build/create3/create3.egg-info
+[1.425s] writing ../../build/create3/create3.egg-info/PKG-INFO
+[1.425s] writing dependency_links to ../../build/create3/create3.egg-info/dependency_links.txt
+[1.425s] writing requirements to ../../build/create3/create3.egg-info/requires.txt
+[1.425s] writing top-level names to ../../build/create3/create3.egg-info/top_level.txt
+[1.426s] writing manifest file '../../build/create3/create3.egg-info/SOURCES.txt'
+[1.470s] reading manifest file '../../build/create3/create3.egg-info/SOURCES.txt'
+[1.471s] writing manifest file '../../build/create3/create3.egg-info/SOURCES.txt'
+[1.471s] running build
+[1.472s] running build_py
+[1.472s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build
+[1.472s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build/lib
+[1.472s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build/lib/create3
+[1.472s] copying create3/__init__.py -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build/lib/create3
+[1.472s] running install
+[1.483s] running install_lib
+[1.507s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages/create3
+[1.508s] copying /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build/lib/create3/__init__.py -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages/create3
+[1.508s] byte-compiling /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages/create3/__init__.py to __init__.cpython-312.pyc
+[1.508s] running install_data
+[1.508s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/ament_index
+[1.509s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/ament_index/resource_index
+[1.510s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/ament_index/resource_index/packages
+[1.510s] copying resource/create3 -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/ament_index/resource_index/packages
+[1.511s] copying package.xml -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3
+[1.511s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/launch
+[1.511s] copying create3/launch/xacro.launch.py -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/launch
+[1.511s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.511s] copying create3/urdf/button.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.511s] copying create3/urdf/caster.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.511s] copying create3/urdf/wheel_drop.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.511s] copying create3/urdf/create3.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.511s] copying create3/urdf/common_properties.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.511s] copying create3/urdf/wheel.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.511s] copying create3/urdf/bumper.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.511s] copying create3/urdf/wheel_with_wheeldrop.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+[1.512s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+[1.512s] copying create3/urdf/sensors/ir_opcode_receivers.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+[1.512s] copying create3/urdf/sensors/cliff_sensor.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+[1.512s] copying create3/urdf/sensors/optical_mouse.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+[1.513s] copying create3/urdf/sensors/imu.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+[1.513s] copying create3/urdf/sensors/ir_intensity.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+[1.513s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes
+[1.513s] copying create3/meshes/bumper_collision.dae -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes
+[1.513s] copying create3/meshes/body_visual.dae -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes
+[1.513s] copying create3/meshes/bumper_visual.dae -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes
+[1.513s] creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes/dock
+[1.513s] copying create3/meshes/dock/visual.dae -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes/dock
+[1.519s] running install_egg_info
+[1.543s] Copying ../../build/create3/create3.egg-info to /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages/create3-0.0.0-py3.12.egg-info
+[1.544s] running install_scripts
+[1.705s] writing list of installed files to '/home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/install.log'
+[1.753s] Invoked command in '/home/isaac_sim/projects/javier.arambarri/robot_import/ws/src/create3' returned '0': PYTHONPATH=/home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/create3 build --build-base /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build install --record /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/install.log --single-version-externally-managed install_data

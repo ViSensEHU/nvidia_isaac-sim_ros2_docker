@@ -1,0 +1,53 @@
+running egg_info
+creating ../../build/create3/create3.egg-info
+writing ../../build/create3/create3.egg-info/PKG-INFO
+writing dependency_links to ../../build/create3/create3.egg-info/dependency_links.txt
+writing requirements to ../../build/create3/create3.egg-info/requires.txt
+writing top-level names to ../../build/create3/create3.egg-info/top_level.txt
+writing manifest file '../../build/create3/create3.egg-info/SOURCES.txt'
+reading manifest file '../../build/create3/create3.egg-info/SOURCES.txt'
+writing manifest file '../../build/create3/create3.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build/lib
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build/lib/create3
+copying create3/__init__.py -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build/lib/create3
+running install
+running install_lib
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages/create3
+copying /home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/build/lib/create3/__init__.py -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages/create3
+byte-compiling /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages/create3/__init__.py to __init__.cpython-312.pyc
+running install_data
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/ament_index
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/ament_index/resource_index
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/ament_index/resource_index/packages
+copying resource/create3 -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/ament_index/resource_index/packages
+copying package.xml -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/launch
+copying create3/launch/xacro.launch.py -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/launch
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+copying create3/urdf/button.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+copying create3/urdf/caster.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+copying create3/urdf/wheel_drop.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+copying create3/urdf/create3.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+copying create3/urdf/common_properties.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+copying create3/urdf/wheel.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+copying create3/urdf/bumper.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+copying create3/urdf/wheel_with_wheeldrop.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+copying create3/urdf/sensors/ir_opcode_receivers.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+copying create3/urdf/sensors/cliff_sensor.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+copying create3/urdf/sensors/optical_mouse.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+copying create3/urdf/sensors/imu.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+copying create3/urdf/sensors/ir_intensity.urdf.xacro -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/urdf/sensors
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes
+copying create3/meshes/bumper_collision.dae -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes
+copying create3/meshes/body_visual.dae -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes
+copying create3/meshes/bumper_visual.dae -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes
+creating /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes/dock
+copying create3/meshes/dock/visual.dae -> /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/share/create3/meshes/dock
+running install_egg_info
+Copying ../../build/create3/create3.egg-info to /home/isaac_sim/projects/javier.arambarri/robot_import/ws/install/create3/lib/python3.12/site-packages/create3-0.0.0-py3.12.egg-info
+running install_scripts
+writing list of installed files to '/home/isaac_sim/projects/javier.arambarri/robot_import/ws/build/create3/install.log'
