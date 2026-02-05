@@ -164,3 +164,109 @@ Reiniciamos:
 ```bash
 sudo reboot
 ```
+
+<br>
+
+# Configuración de GNOME Remote Desktop (RDP) en Ubuntu mediante `grdctl` (recuperar RDP después de usar VNC)
+
+Esta sección documenta los pasos necesarios para habilitar y configurar **GNOME Remote Desktop (RDP)** desde la línea de comandos, incluyendo la creación manual de certificados TLS y la configuración de credenciales. Esto es necesario para recuperar el servicio de RDP Desktop Sharing después de haber usado x11vnc con Xorg Dummy y solucionar el problema de ``RDP certificate is invalid``.
+
+## 0. Comprobar que Wayland está habilitado en GDM (Gnome Desktop Manager)
+
+GNOME Remote Desktop (RDP) funciona sobre sesiones Wayland. Hay que asegurarse de que **Wayland no está deshabilitado** en la configuración de GDM.
+
+Editar el fichero de configuración de GDM:
+
+```bash
+sudo nano /etc/gdm3/custom.conf
+```
+
+En ese fichero, asegurarse de que la línea ``WaylandEnable=false`` está comentada. Debe quedar así:
+```bash
+#WaylandEnable=false
+```
+
+Guardar, cerrar el fichero y reiniciar el sistema: 
+```bash
+sudo reboot
+```
+
+## 1. Crear directorio para certificados TLS
+
+GNOME Remote Desktop almacena sus certificados en:
+~/.local/share/gnome-remote-desktop/
+
+Si no existe, crearlo:
+
+```bash
+mkdir -p ~/.local/share/gnome-remote-desktop/
+```
+
+## 2. Generar certificado y clave TLS
+
+GNOME Remote Desktop requiere un certificado TLS válido para iniciar el servidor RDP.
+Generar un certificado autofirmado:
+```bash
+openssl req -new -newkey rsa:4096 -days 720 -nodes -x509 \
+  -subj /C=SE/ST=NONE/L=NONE/O=GNOME/CN=gnome.org \
+  -out ~/.local/share/gnome-remote-desktop/tls.crt \
+  -keyout ~/.local/share/gnome-remote-desktop/tls.key
+```
+
+## 3. Registrar el certificado y la clave en GNOME Remote Desktop
+```bash
+grdctl rdp set-tls-key ~/.local/share/gnome-remote-desktop/tls.key
+grdctl rdp set-tls-cert ~/.local/share/gnome-remote-desktop/tls.crt
+```
+
+## 4. Establecer credenciales RDP
+
+En versiones recientes de ``grdctl``, la sintaxis correcta es: ``grdctl rdp set-credentials <usuario> <contraseña>``
+
+```bash
+grdctl rdp set-credentials my_user my_pass
+```
+
+## 5. Habilitar el servidor RDP
+```bash
+grdctl rdp enable
+```
+
+## 6. Verificar el estado del servicio
+```bash
+grdctl status
+```
+
+Debe mostrar algo similar a:
+```
+RDP:
+    Status: enabled
+    Port: 3389
+    TLS certificate: /home/<user>/.local/share/gnome-remote-desktop/tls.crt
+    TLS key: /home/<user>/.local/share/gnome-remote-desktop/tls.key
+    Username: (hidden)
+    Password: (hidden)
+```
+
+## 7. Verificar que el servicio está activo
+```bash
+systemctl --user status gnome-remote-desktop.service
+```
+
+Debe aparecer como active (running).
+
+## 8. Abrir puertos en el firewall (UFW)
+```bash
+sudo ufw allow 3389/tcp
+sudo ufw reload
+```
+
+Comprobarlo con:
+```bash
+sudo ufw status
+```
+## 9. Bibliografía
+https://gitlab.gnome.org/GNOME/gnome-remote-desktop#from-command-line
+https://gitlab.gnome.org/GNOME/gnome-remote-desktop#tls-key-and-certificate-generation
+
+## Ahora ya podemos modificar usuario y contraseña desde Configuración > Sistemas > Escritorio Remoto > Compartición de Escritorio (Desktop Sharing) 
