@@ -24,6 +24,7 @@ docker run --name nil-2.3.2-nis-5.1.0 \
            -v ~/docker/isaac-sim/data:/root/.local/share/ov/data:rw \
            -v ~/docker/isaac-sim/documents:/root/Documents:rw \
            -v ./projects:/isaac-sim/projects:rw \
+           -u 1234:1234 \
            nvcr.io/nvidia/isaac-lab:2.3.2
 
 # -u 1234:1234 \
